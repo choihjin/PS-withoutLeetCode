@@ -2,43 +2,39 @@
 
 using namespace std;
 
-int main(void) {
-    cin.tie(0);
-    cin.sync_with_stdio(0);
-	int num, data;
-	queue<int> q; 
-    string str;
-	cin >> num;
+int main() {
+  cin.tie(0);
+	cin.sync_with_stdio(0);
 
-	for (int i = 0; i < num; i++) {
-		cin >> str;
+  queue<int> Queue;
+  int n;
+  string command;
 
-		if (str == "push") {
-			cin >> data;
-			q.push(data);
-		}
-		else if (str == "pop") {
-			if (q.size() == 0) std::cout << "-1\n";
-			else {
-				data = q.front();
-				q.pop();
-				cout << data << "\n";
-			}
-		}
-		else if (str == "size") {
-			cout << q.size() << "\n";
-		}
-		else if (str == "empty") {
-			cout << q.empty() << "\n";
-		}
-		else if (str == "front") {
-			if (q.size() == 0) std::cout << "-1\n";
-			else cout << q.front() << "\n";
-		}
-		else if (str == "back") {
-			if (q.size() == 0) std::cout << "-1\n";
-			else cout << q.back() << "\n";
-		}
-	}
-	return 0;
+  cin >> n;
+  for(int i=0; i<n; i++) {
+    cin >> command;
+    if(command == "push") {
+      int buffer;
+      cin >> buffer;
+      Queue.push(buffer);
+    } else if(command == "pop") {
+      if(!Queue.empty()) {
+        cout << Queue.front() << "\n";
+        Queue.pop();
+      } else {
+        cout << -1 << "\n";
+      }
+    } else if(command == "size") {
+      cout << Queue.size() << "\n";
+    } else if(command == "empty") {
+      cout << Queue.empty() << "\n";
+    } else if(command == "front") {
+      if(!Queue.empty()) cout << Queue.front() << "\n";
+      else cout << -1 << "\n";
+    } else if(command == "back") {
+      if(!Queue.empty()) cout << Queue.back() << "\n";
+      else cout << -1 << "\n";
+    }
+  }
+  return 0;
 }
