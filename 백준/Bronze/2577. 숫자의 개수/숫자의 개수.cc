@@ -1,25 +1,21 @@
-#include <iostream>
-#include <vector>
-#include <string>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 int main() {
-    int a, b, c;
-    int result;
-    vector<int> v(10);
+  ios::sync_with_stdio(0);
+  cin.tie(0);
 
-    cin >> a;
-    cin >> b;
-    cin >> c;
-    result = a * b * c;
+  int arr[10] = {0,};
+  int a, b, c;
+  cin >> a >> b >> c;
 
-    string s = to_string(result);
-    for(int i=0; i<s.size(); i++) {
-        v.at(s[i]-48)++;
-    }
+  string s = to_string(a*b*c);
 
-    for(int i=0; i<v.size(); i++) {
-        cout << v[i] << endl;
-    }
+  for(char c : s) {
+    arr[c-'0']++;
+  }
+
+  for(int i=0; i<10; i++) cout << arr[i] << "\n";
+  
+  return 0;
 }
