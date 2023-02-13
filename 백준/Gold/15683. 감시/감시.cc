@@ -12,12 +12,12 @@ vector<pair<int,int> > cctv; // cctv의 좌표를 저장할 변수
 
 void upd(int x, int y, int dir) {
   dir %= 4;
-  while(1) {
+  while(1){
     x += dx[dir];
     y += dy[dir];
-    if(x < 0 || x >= n || y < 0 || y >= m || board2[x][y] == 6) break;
-    if(board2[x][y] != 0) continue;
-    board2[x][y] = 7;
+    if(x < 0 || x >= n || y < 0 || y >= m || board2[x][y] == 6) return; // 범위를 벗어났거나 벽을 만나면 함수를 탈출
+    if(board2[x][y] != 0) continue; // 해당 칸이 빈칸이 아닐 경우(=cctv가 있을 경우) 넘어감
+    board2[x][y] = 7; // 빈칸을 7로 덮음
   }
 }
 
@@ -25,7 +25,7 @@ int main() {
   ios::sync_with_stdio(0);
   cin.tie(0);
   cin >> n >> m;
-  int mn = 0;
+  int mn = 0; // 사각 지대의 최소 크기 (=답)
   for(int i=0; i<n; i++) {
     for(int j=0; j<m; j++) {
       cin >> board1[i][j];
@@ -33,8 +33,8 @@ int main() {
       if(board1[i][j] == 0) mn++;
     }
   }
-
-  for(int tmp=0; tmp < (1<<(2*cctv.size())); tmp++) {
+  // 1 << (2*cctv.size())는 4의 cctv.size()승을 의미.
+  for(int tmp=0; tmp < (1<<(2*cctv.size())); tmp++) { // tmp를 4진법으로 뒀을 때 각 자리수를 cctv의 방향으로 생각할 것이다.
     for(int i=0; i<n; i++)
       for(int j=0; j<m; j++)
         board2[i][j] = board1[i][j];
