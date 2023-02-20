@@ -2,34 +2,35 @@
 using namespace std;
 
 int t, n, m;
-int a[20002];
-int b[20002];
-
-bool cmp(int x, int y) {
-    return x > y;
-}
 
 int main(void){
     ios::sync_with_stdio(0);
     cin.tie(0);
 
     cin >> t;
-    while(t--) {
+    while(t--){
         cin >> n >> m;
-        for(int i=0; i<n; i++) cin >> a[i];
-        for(int i=0; i<m; i++) cin >> b[i];
-        sort(a, a+n, cmp);
-        sort(b, b+m, cmp);
-
-        int cnt = 0;
-        for(int i=0; i<n; i++) {
-            for(int j=0; j<m; j++) {
-                if(a[i] > b[j]) {
-                    cnt += m - j;
-                    break;
-                }
-            }
+        vector<pair<int,int>> v(n+m);
+        for(int i = 0; i < n; i++){
+            int a;
+            cin >> a;
+            v[i] = {a, 0};
         }
-        cout << cnt << "\n";
+        for(int i = n; i < n+m; i++){
+            int b;
+            cin >> b;
+            v[i] = {b, 1};
+        }
+        
+        sort(v.begin(), v.end());
+        int cnt = 0; // 현재까지 나온 b의 개수
+        int ans = 0;
+        for(int i = 0; i < n+m; i++){
+            if(v[i].second == 0) // 현재 보는 수가 A에 속한 수
+                ans += cnt;
+            else // 현재 보는 수가 B에 속한 수
+                cnt++;
+        }
+        cout << ans << '\n';
     }
 }
