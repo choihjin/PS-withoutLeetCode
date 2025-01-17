@@ -3,30 +3,33 @@ using namespace std;
 #define endl "\n"
 
 int n, m;
-vector<int> front[32002];
-bool visited[32002] = { false, };
-stack<int> s;
-
-void DFS(int node) {
-	visited[node] = true;
-	for (int i = 0; i < front[node].size(); i++) {
-		if(visited[front[node][i]] == false) // 앞에 있는 노드 중 방문되지 않은 노드
-			DFS(front[node][i]);
-	}
-	cout << node << " ";
-}
+vector<int> adj[32002];
+int deg[32002];
 
 int main() {
     cin >> n >> m;
     for(int i=0; i<m; i++) {
         int a, b;
         cin >> a >> b;
-        front[b].push_back(a);
+        adj[a].push_back(b);
+        deg[b]++;
     }
 
-    for(int i=1; i<=n; i++) 
-        if(visited[i] == false) DFS(i);
+    queue<int> q;
+    vector<int> ans;
+    for(int i=1 ;i<=n; i++) // indegree 계산
+        if(deg[i] == 0) q.push(i);
+    while(!q.empty()) {
+        int cur = q.front(); q.pop();
+        ans.push_back(cur);
+        for(int nxt : adj[cur]) {
+            deg[nxt]--;
+            if(deg[nxt] == 0) q.push(nxt);
+        }
+    }
 
+    if(ans.size() != n) cout << "cycle" << endl;
+    else for(int i : ans) cout << i << " ";
     cout << endl;
 
     return 0;
