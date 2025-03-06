@@ -2,11 +2,9 @@
 using namespace std;
 #define endl "\n"
 
-/*
-알파벳의 순서 A (3 <= |A| <= 62)
-원문 P(Plain text) (1 <= |W| <= 50,000)
-암호문 C(Cypher text) (3 <= |S| <= 500,000)
-*/
+// 알파벳의 순서 A (3 <= |A| <= 62)
+// 원문 P(Plain text) (1 <= |W| <= 50,000)
+// 암호문 C(Cypher text) (3 <= |S| <= 500,000)
 
 vector<int> failure(string &s) {
     vector<int> f(s.size());
@@ -49,7 +47,10 @@ int main() {
             for(int i=0; i<S.size(); i++) {
                 while(j > 0 && S[i] != cypher[j]) j = f[j-1];
                 if(S[i] == cypher[j]) j++;
-                if(j == cypher.size()) cnt++;
+                if(j == cypher.size()) {
+                    cnt++;
+                    j = f[j-1];
+                }
             }
             
             // CypherText가 단 한번만 포함
