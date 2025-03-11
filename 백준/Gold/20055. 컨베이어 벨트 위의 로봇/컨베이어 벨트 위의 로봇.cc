@@ -44,6 +44,7 @@ int main() {
                 arr[i+1].robot = true;
                 arr[i].robot = false;
                 arr[i+1].dur--;
+                if(arr[i+1].dur == 0) zero++;
             }
         }
         
@@ -51,12 +52,8 @@ int main() {
         if(arr[0].dur) {
             arr[0].robot = true;
             arr[0].dur--;
+            if(arr[0].dur == 0) zero++;
         }
-
-        // 4. 내구도가 0인 칸의 개수 카운트
-        zero = 0;
-        for(int i=0; i<n*2; i++) 
-            if(arr[i].dur == 0) zero++;
 
         // 로봇 내림
         arr[n-1].robot = false;
