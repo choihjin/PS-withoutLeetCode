@@ -1,53 +1,33 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define endl "\n"
 
-int n;
-int arr[100002];
+#define endl "\n"
 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
+    int n;
     cin >> n;
+    vector<int> arr(n);
     for(int i = 0; i < n; i++) cin >> arr[i];
 
+    int left = 0, right = n - 1;
     int diff = INT_MAX;
     pair<int, int> ans;
-    int i = 0;
-    for(int i = 0; i < n-1; i++) {
-        auto iter = lower_bound(arr, arr+n, -arr[i]);
-        if(iter == arr+n) iter--;
-        // cout << arr[i] << " " << *iter << endl;
 
-        if(abs(*iter + arr[i]) < diff && *iter != arr[i]) {
-            diff = abs(*iter + arr[i]);
-            ans = {arr[i], *iter};
+    while (left < right) {
+        int sum = arr[left] + arr[right];
+
+        if (abs(sum) < diff) {
+            diff = abs(sum);
+            ans = {arr[left], arr[right]};
         }
 
-        iter = upper_bound(arr, arr+n, -arr[i] - diff);
-        if(iter == arr+n) iter--;
-        // cout << arr[i] << " " << *iter << endl;
-
-        if(abs(*iter + arr[i]) < diff && *iter != arr[i]) {
-            diff = abs(*iter + arr[i]);
-            ans = {arr[i], *iter};
-        }
-        
-        iter = upper_bound(arr, arr+n, arr[i]);
-        if(iter == arr+n && i != n-1) iter--;
-        // cout << arr[i] << " " << *iter << endl;
-
-        if(abs(*iter + arr[i]) < diff && *iter != arr[i]) {
-            diff = abs(*iter + arr[i]);
-            ans = {arr[i], *iter};
-        }
-
-        // cout << diff << endl;
+        if (sum < 0) left++;
+        else right--;
     }
 
-    if(ans.first > ans.second) cout << ans.second << " " << ans.first << endl;
-    else cout << ans.first << " " << ans.second << endl;
-
+    cout << ans.first << " " << ans.second << endl;
     return 0;
 }
