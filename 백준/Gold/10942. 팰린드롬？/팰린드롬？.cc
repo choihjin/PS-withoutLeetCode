@@ -11,18 +11,17 @@ int main() {
     cin.tie(0);
 
     cin >> n;
-    for (int i = 1; i <= n; i++) {
+    for (int i = 1; i <= n; i++) 
         cin >> arr[i];
-        dp[i][i] = 1;
-    }
-    
-    for(int i = 1; i < n; i++)
-        if(arr[i] == arr[i+1]) dp[i][i+1] = 1;
 
-    for(int len = 3; len <= n; len++) {
+    for(int len = 1; len <= n; len++) {
         for(int i = 1; i <= n; i++) {
-            int j = i + len - 1;
-            if(arr[i] == arr[j] && dp[i+1][j-1]) dp[i][j] = 1;
+            if(len == 1) dp[i][i] = 1;
+            else if(len == 2 && arr[i] == arr[i+1]) dp[i][i+1] = 1;
+            else if(len >= 3) {
+                int j = i + len - 1;
+                if(arr[i] == arr[j] && dp[i+1][j-1]) dp[i][j] = 1;
+            } 
         }
     }
 
