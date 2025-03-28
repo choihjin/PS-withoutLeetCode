@@ -1,18 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define endl "\n"
 #define pii pair<int, int>
 
-// CCW 함수
-int ccw(pii p1, pii p2, pii p3) {
-    long long cross = 1LL * p1.first * p2.second + 1LL * p2.first * p3.second + 1LL * p3.first * p1.second;
-    cross -= 1LL * p1.second * p2.first + 1LL * p2.second * p3.first + 1LL * p3.second * p1.first;
+typedef long long ll;
+pair<pii, pii> a, b;
 
-    if (cross > 0) return 1;      // 반시계
-    else if (cross == 0) return 0; // 일직선
-    else return -1;               // 시계
+int ccw(pair<int, int> p1, pair<int, int> p2, pair<int, int> p3) {
+    ll s = 1LL * p1.first * p2.second + 1LL * p2.first * p3.second + 1LL * p3.first * p1.second;
+    s -= 1LL * p1.second * p2.first + 1LL * p2.second * p3.first + 1LL * p3.second * p1.first;
+
+    if (s > 0) return 1; // 반시계
+    else if (s == 0) return 0; // 일직선
+    return -1; // 시계
 }
 
-// 선분 교차 판정 함수
 bool isIntersect(pair<pii, pii> a, pair<pii, pii> b) {
     pii a1 = a.first, a2 = a.second;
     pii b1 = b.first, b2 = b.second;
@@ -31,15 +33,13 @@ bool isIntersect(pair<pii, pii> a, pair<pii, pii> b) {
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    pair<pii, pii> a, b;
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
     cin >> a.first.first >> a.first.second >> a.second.first >> a.second.second;
     cin >> b.first.first >> b.first.second >> b.second.first >> b.second.second;
-
-    cout << isIntersect(a, b) << "\n";
+    
+    cout << isIntersect(a, b) << endl;
 
     return 0;
 }
