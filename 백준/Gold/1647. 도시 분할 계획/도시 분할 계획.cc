@@ -1,44 +1,53 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-priority_queue< tuple<int, int, int>,
-                vector<tuple<int, int, int>>,
-                greater<tuple<int, int, int>> > pq;
+int v, e;
+tuple<int, int, int> edge[1000002];
+vector<int> p(100002, -1);
 
-vector< pair<int, int> > adj[100002];
-bool vis[100002];
+int find(int x) {
+    if(p[x] < 0) return x;
+    return p[x] = find(p[x]);
+}
 
-int main(void){
-  ios::sync_with_stdio(0);
-  cin.tie(0);
+bool is_diff_group(int u, int v) {
+    u = find(u); v = find(v);
+    if (u == v) return 0;
+    if (p[u] == p[v]) p[u]--;
+    if (p[u] < p[v]) p[v] = u;
+    else p[u] = v;
+    return 1;
+}
 
-  int n, m;
-  cin >> n >> m;
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
-  int a, b, c;
-  while(m--) {
-    cin >> a >> b >> c;
-    adj[a].push_back({c, b});
-    adj[b].push_back({c, a});
-  }
+    cin >> v >> e;
+    for(int i = 0; i < e; i++) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        edge[i] = {c, a, b};
+    }
+    sort(edge, edge + e);
 
-  vis[1] = 1;
-  for(auto nxt : adj[1])
-    pq.push({nxt.first, 1, nxt.second});
-  
-  int cnt = 0, ans = 0, mc = 0;
-  while(cnt < n - 1) {
-    tie(c, a, b) = pq.top(); pq.pop();
-    if(vis[b]) continue;
+    int cnt = 0;
+    vector<int> ans;
+    for(int i = 0; i < e; i++) {
+        int a, b, cost;
+        tie(cost, a, b) = edge[i];
+        if(!is_diff_group(a, b)) continue;
+        ans.push_back(cost);
+        cnt++;
+        if(cnt == v-1) break;
+    }
 
-    vis[b] = 1;
-    ans += c;
-    mc = max(mc, c);
-    cnt++;
+    sort(ans.begin(), ans.end());
+    ans.pop_back();
 
-    for(auto nxt : adj[b])
-      if(!vis[nxt.second])
-        pq.push({nxt.first, b, nxt.second});
-  }
-  cout << ans - mc;
+    int sum = 0;
+    for(auto a : ans) sum += a;
+    cout << sum << endl;
+        
+    return 0;
 }
